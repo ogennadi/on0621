@@ -66,4 +66,8 @@ public enum ToolType {
 
         return weekend.contains(currentDayOfWeek);
     }
+
+    public Double getDailyCharge() {
+        return dailyCharge;
+    }
 }
