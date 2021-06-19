@@ -6,6 +6,9 @@ import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RentalAgreementTest {
+
+    public static final Instant NON_WEEKEND_AND_NON_HOLIDAY = Instant.parse("2021-06-14T00:00:00Z");
+
     @Test
     void finalChargeShouldReturnXXGivenTestCase1() {
         RentalAgreement testCase1 = new RentalAgreement(Tool.JAKR,
@@ -37,9 +40,8 @@ class RentalAgreementTest {
 
     @Test
     void preDiscountChargeIsChargeDaysTimesDailyCharge() {
-        Instant nonWeekendAndNonHoliday = Instant.parse("2021-06-14T00:00:00Z");
         RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
-                nonWeekendAndNonHoliday,
+                NON_WEEKEND_AND_NON_HOLIDAY,
                 1,
                 0);
 
@@ -48,4 +50,15 @@ class RentalAgreementTest {
         assertEquals(BigDecimal.valueOf(1*ToolType.JACKHAMMER.getDailyCharge()), actual);
     }
 
+    @Test
+    void discountAmountIsDiscountPercentTimesPreDiscountCharge() {
+        RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
+                NON_WEEKEND_AND_NON_HOLIDAY,
+                1,
+                100);
+
+        BigDecimal actual = agreement.getDiscountAmount();
+
+        assertEquals(BigDecimal.valueOf(2.99), actual);
+    }
 }
