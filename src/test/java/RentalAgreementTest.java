@@ -19,7 +19,7 @@ class RentalAgreementTest {
     }
 
     @Test
-    void dueDateShouldReturnCheckoutDataPlusRentalDays() {
+    void dueDateShouldReturnCheckoutDatePlusRentalDays() {
         RentalAgreement agreement = new RentalAgreement();
         agreement.setCheckoutDate(Instant.parse("2015-09-03T00:00:00Z"));
         agreement.setRentalDays(1);
