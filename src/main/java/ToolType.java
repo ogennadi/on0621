@@ -27,7 +27,7 @@ public enum ToolType {
         for (int i = 1; i <= rentalDays; i++) {
             currentDay = checkoutDate.plus(Duration.ofDays(i));
 
-            if (isAmericanWeekend(currentDay) || isLaborDay(currentDay) || isFourthOfJuly(currentDay)) {
+            if (shouldNotChargeForWeekend(currentDay) || shouldNotChargeForHoliday(currentDay)) {
                 chargeDays = chargeDays - 1;
             }
         }
@@ -35,9 +35,16 @@ public enum ToolType {
         return chargeDays;
     }
 
+    private boolean shouldNotChargeForHoliday(Instant currentDay) {
+        return (isLaborDay(currentDay) || isFourthOfJuly(currentDay)) && !holidayCharge;
+    }
+
+    private boolean shouldNotChargeForWeekend(Instant currentDay) {
+        return isAmericanWeekend(currentDay) && !weekendCharge;
+    }
+
     private boolean isFourthOfJuly(Instant i) {
         ZonedDateTime dateAtZone = i.atZone(ZoneId.of("UTC"));
-        DayOfWeek dayOfWeek = dateAtZone.getDayOfWeek();
         int dayOfMonth = dateAtZone.getDayOfMonth();
         Month month = dateAtZone.getMonth();
 
