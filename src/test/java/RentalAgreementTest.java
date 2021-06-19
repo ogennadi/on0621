@@ -2,11 +2,8 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RentalAgreementTest {
     @Test
@@ -19,5 +16,16 @@ class RentalAgreementTest {
         BigDecimal actual = testCase1.getFinalCharge();
 
         assertEquals(BigDecimal.ZERO, actual);
+    }
+
+    @Test
+    void dueDateShouldReturnCheckoutDataPlusRentalDays() {
+        RentalAgreement agreement = new RentalAgreement();
+        agreement.setCheckoutDate(Instant.parse("2015-09-03T00:00:00Z"));
+        agreement.setRentalDays(1);
+
+        Instant actual = agreement.getDueDate();
+
+        assertEquals(Instant.parse("2015-09-04T00:00:00Z"), actual);
     }
 }
