@@ -3,12 +3,12 @@ import java.time.Duration;
 import java.time.Instant;
 
 public class RentalAgreement {
-
+    private Tool tool;
     private Instant checkoutDate;
     private int rentalDays;
 
-    public RentalAgreement(String toolCode, Instant checkoutDate, int rentalDays, int discountPercent) {
-
+    public RentalAgreement(Tool tool, Instant checkoutDate, int rentalDays, int discountPercent) {
+        this.tool = tool;
         this.checkoutDate = checkoutDate;
         this.rentalDays = rentalDays;
     }
@@ -39,5 +39,13 @@ public class RentalAgreement {
 
     public Instant getDueDate() {
         return checkoutDate.plus(Duration.ofDays(rentalDays));
+    }
+
+    public BigDecimal getPreDiscountCharge() {
+        ToolType toolType = tool.getToolType();
+        int chargeDays = toolType.getChargeDays(checkoutDate, rentalDays);
+        Double dailyCharge = toolType.getDailyCharge();
+
+        return BigDecimal.valueOf(chargeDays).multiply(BigDecimal.valueOf(dailyCharge));
     }
 }

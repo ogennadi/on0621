@@ -58,5 +58,4 @@ class ToolTypeTest {
 
         assertEquals(1, actual);
     }
-
 }

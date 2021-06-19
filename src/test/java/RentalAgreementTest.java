@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RentalAgreementTest {
     @Test
     void finalChargeShouldReturnXXGivenTestCase1() {
-        RentalAgreement testCase1 = new RentalAgreement("JAKR",
+        RentalAgreement testCase1 = new RentalAgreement(Tool.JAKR,
                 Instant.parse("2015-09-03T00:00:00Z"),
                 5,
                 101);
@@ -17,6 +17,9 @@ class RentalAgreementTest {
 
         assertEquals(BigDecimal.ZERO, actual);
     }
+
+
+
 
     @Test
     void dueDateShouldReturnCheckoutDatePlusRentalDays() {
@@ -28,4 +31,21 @@ class RentalAgreementTest {
 
         assertEquals(Instant.parse("2015-09-04T00:00:00Z"), actual);
     }
+
+
+
+
+    @Test
+    void preDiscountChargeIsChargeDaysTimesDailyCharge() {
+        Instant nonWeekendAndNonHoliday = Instant.parse("2021-06-14T00:00:00Z");
+        RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
+                nonWeekendAndNonHoliday,
+                1,
+                0);
+
+        BigDecimal actual = agreement.getPreDiscountCharge();
+
+        assertEquals(BigDecimal.valueOf(1*ToolType.JACKHAMMER.getDailyCharge()), actual);
+    }
+
 }

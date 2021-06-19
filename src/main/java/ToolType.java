@@ -35,6 +35,10 @@ public enum ToolType {
         return chargeDays;
     }
 
+    public Double getDailyCharge() {
+        return dailyCharge;
+    }
+
     private boolean shouldNotChargeForHoliday(Instant currentDay) {
         return (isLaborDay(currentDay) || isFourthOfJuly(currentDay)) && !holidayCharge;
     }
@@ -48,7 +52,8 @@ public enum ToolType {
         int dayOfMonth = dateAtZone.getDayOfMonth();
         Month month = dateAtZone.getMonth();
 
-        return (dayOfMonth == 4 && month.equals(Month.JULY));
+        return dayOfMonth == 4 &&
+                month.equals(Month.JULY);
     }
 
     private boolean isLaborDay(Instant i) {
@@ -57,7 +62,9 @@ public enum ToolType {
         int dayOfMonth = dateAtZone.getDayOfMonth();
         Month month = dateAtZone.getMonth();
 
-        return currentDayOfWeek.equals(DayOfWeek.MONDAY) && dayOfMonth <= 7 && month.equals(Month.SEPTEMBER);
+        return currentDayOfWeek.equals(DayOfWeek.MONDAY) &&
+                dayOfMonth <= 7 &&
+                month.equals(Month.SEPTEMBER);
     }
 
     private boolean isAmericanWeekend(Instant i) {
@@ -65,9 +72,5 @@ public enum ToolType {
         DayOfWeek currentDayOfWeek = i.atZone(ZoneId.of("UTC")).getDayOfWeek();
 
         return weekend.contains(currentDayOfWeek);
-    }
-
-    public Double getDailyCharge() {
-        return dailyCharge;
     }
 }
