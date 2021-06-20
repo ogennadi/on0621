@@ -4,21 +4,25 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RentalAgreementTest {
 
     public static final Instant NON_WEEKEND_AND_NON_HOLIDAY = Instant.parse("2021-06-14T00:00:00Z");
 
+
+
     @Test
-    void finalChargeShouldReturnXXGivenTestCase1() {
-        RentalAgreement testCase1 = new RentalAgreement(Tool.JAKR,
-                Instant.parse("2015-09-03T00:00:00Z"),
-                5,
-                101);
+    void finalChargeIsPreDiscountChargeLessDiscountAmount() {
+        RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
+                NON_WEEKEND_AND_NON_HOLIDAY,
+                1,
+                100);
 
-        BigDecimal actual = testCase1.getFinalCharge();
+        BigDecimal actual = agreement.getFinalCharge();
 
-        assertEquals(BigDecimal.ZERO, actual);
+        assertTrue(BigDecimal.ZERO.subtract(actual).compareTo(BigDecimal.valueOf(0.01)) < 0,
+                "actual is not within $0.01 of expected");
     }
 
 
@@ -50,6 +54,9 @@ class RentalAgreementTest {
         assertEquals(BigDecimal.valueOf(1*ToolType.JACKHAMMER.getDailyCharge()), actual);
     }
 
+
+
+
     @Test
     void discountAmountIsDiscountPercentTimesPreDiscountCharge() {
         RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
@@ -61,4 +68,5 @@ class RentalAgreementTest {
 
         assertEquals(BigDecimal.valueOf(2.99), actual);
     }
+
 }

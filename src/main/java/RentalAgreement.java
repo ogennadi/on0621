@@ -21,7 +21,7 @@ public class RentalAgreement {
     }
 
     public BigDecimal getFinalCharge() {
-        return BigDecimal.ZERO;
+        return getPreDiscountCharge().subtract(getDiscountAmount());
     }
 
     public Instant getCheckoutDate() {
