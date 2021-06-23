@@ -1,16 +1,22 @@
 public enum Tool {
-    LADW(ToolType.LADDER),
-    CHNS(ToolType.CHAINSAW),
-    JAKR(ToolType.JACKHAMMER),
-    JAKD(ToolType.JACKHAMMER);
+    LADW(ToolType.LADDER, "Werner"),
+    CHNS(ToolType.CHAINSAW, "Stihl"),
+    JAKR(ToolType.JACKHAMMER, "Ridgid"),
+    JAKD(ToolType.JACKHAMMER, "DeWalt");
 
     private final ToolType type;
+    private final String brand;
 
-    Tool(ToolType type) {
+    Tool(ToolType type, String brand) {
         this.type = type;
+        this.brand = brand;
     }
 
     public ToolType getToolType() {
         return type;
+    }
+
+    public String getBrand() {
+        return brand;
     }
 }

@@ -73,4 +73,9 @@ public enum ToolType {
 
         return weekend.contains(currentDayOfWeek);
     }
+
+    @Override
+    public String toString() {
+        return label;
+    }
 }
