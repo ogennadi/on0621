@@ -40,15 +40,15 @@ public enum ToolType {
     }
 
     private boolean shouldNotChargeForHoliday(Instant currentDay) {
-        return (isLaborDay(currentDay) || isFourthOfJuly(currentDay)) && !holidayCharge;
+        return (isLaborDay(currentDay) || isIndependenceDay(currentDay)) && !holidayCharge;
     }
 
     private boolean shouldNotChargeForWeekend(Instant currentDay) {
         return isAmericanWeekend(currentDay) && !weekendCharge;
     }
 
-    private boolean isFourthOfJuly(Instant i) {
-        ZonedDateTime dateAtZone = i.atZone(ZoneId.of("UTC"));
+    private boolean isIndependenceDay(Instant i) {
+        ZonedDateTime dateAtZone = i.atZone(ZoneId.of(PointOfSale.TIME_ZONE));
         int dayOfMonth = dateAtZone.getDayOfMonth();
         Month month = dateAtZone.getMonth();
 
@@ -57,7 +57,7 @@ public enum ToolType {
     }
 
     private boolean isLaborDay(Instant i) {
-        ZonedDateTime dateAtZone = i.atZone(ZoneId.of("UTC"));
+        ZonedDateTime dateAtZone = i.atZone(ZoneId.of(PointOfSale.TIME_ZONE));
         DayOfWeek currentDayOfWeek = dateAtZone.getDayOfWeek();
         int dayOfMonth = dateAtZone.getDayOfMonth();
         Month month = dateAtZone.getMonth();
@@ -69,7 +69,7 @@ public enum ToolType {
 
     private boolean isAmericanWeekend(Instant i) {
         List<DayOfWeek> weekend = Arrays.asList(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
-        DayOfWeek currentDayOfWeek = i.atZone(ZoneId.of("UTC")).getDayOfWeek();
+        DayOfWeek currentDayOfWeek = i.atZone(ZoneId.of(PointOfSale.TIME_ZONE)).getDayOfWeek();
 
         return weekend.contains(currentDayOfWeek);
     }
