@@ -8,6 +8,10 @@ public class RentalDayCount {
         this.value = value;
     }
 
+    public static RentalDayCount valueOf(Integer rentalDayCount) {
+        return new RentalDayCount(rentalDayCount);
+    }
+
     public Integer getValue() {
         return value;
     }

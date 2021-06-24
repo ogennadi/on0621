@@ -13,8 +13,8 @@ class RentalAgreementTest {
     void finalChargeIsPreDiscountChargeLessDiscountAmount() {
         RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
                 NON_WEEKEND_AND_NON_HOLIDAY,
-                1,
-                100);
+                RentalDayCount.valueOf(1),
+                Percent.valueOf(100));
 
         BigDecimal actual = agreement.getFinalCharge();
 
@@ -25,8 +25,8 @@ class RentalAgreementTest {
     void finalChargeIsCorrectForTest3() {
         RentalAgreement agreement = new RentalAgreement(Tool.CHNS,
                 Instant.parse("2015-07-02T00:00:00Z"),
-                5,
-                25);
+                RentalDayCount.valueOf(5),
+                Percent.valueOf(25));
 
         BigDecimal actual = agreement.getFinalCharge();
 
@@ -37,8 +37,8 @@ class RentalAgreementTest {
     void finalChargeIsCorrectForTest4() {
         RentalAgreement agreement = new RentalAgreement(Tool.JAKD,
                 Instant.parse("2015-09-03T00:00:00Z"),
-                6,
-                0);
+                RentalDayCount.valueOf(6),
+                Percent.valueOf(0));
 
         BigDecimal actual = agreement.getFinalCharge();
 
@@ -49,8 +49,8 @@ class RentalAgreementTest {
     void finalChargeIsCorrectForTest5() {
         RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
                 Instant.parse("2015-07-02T00:00:00Z"),
-                9,
-                0);
+                RentalDayCount.valueOf(9),
+                Percent.valueOf(0));
 
         BigDecimal actual = agreement.getFinalCharge();
 
@@ -61,8 +61,8 @@ class RentalAgreementTest {
     void finalChargeIsCorrectForTest6() {
         RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
                 Instant.parse("2020-07-02T00:00:00Z"),
-                4,
-                50);
+                RentalDayCount.valueOf(4),
+                Percent.valueOf(50));
 
         BigDecimal actual = agreement.getFinalCharge();
 
@@ -87,8 +87,8 @@ class RentalAgreementTest {
     void preDiscountChargeIsChargeDaysTimesDailyCharge() {
         RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
                 NON_WEEKEND_AND_NON_HOLIDAY,
-                1,
-                0);
+                RentalDayCount.valueOf(1),
+                Percent.valueOf(0));
 
         BigDecimal actual = agreement.getPreDiscountCharge();
 
@@ -102,8 +102,8 @@ class RentalAgreementTest {
     void discountAmountIsDiscountPercentTimesPreDiscountCharge() {
         RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
                 NON_WEEKEND_AND_NON_HOLIDAY,
-                1,
-                100);
+                RentalDayCount.valueOf(1),
+                Percent.valueOf(100));
 
         BigDecimal actual = agreement.getDiscountAmount();
 
@@ -114,8 +114,8 @@ class RentalAgreementTest {
     void toStringCorrectlyFormatsTest2() {
         RentalAgreement agreement = new RentalAgreement(Tool.LADW,
                 Instant.parse("2020-07-02T00:00:00Z"),
-                3,
-                10);
+                RentalDayCount.valueOf(3),
+                Percent.valueOf(10));
 
         String expected =
                 "Tool code: LADW\n"
@@ -135,7 +135,6 @@ class RentalAgreementTest {
 
         assertEquals(expected, actual);
     }
-
 
     private void assertWithinEpsilon(Double expected, BigDecimal actual) {
         assertTrue(BigDecimal.valueOf(expected).subtract(actual).compareTo(BigDecimal.valueOf(0.01)) < 0,

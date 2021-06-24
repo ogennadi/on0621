@@ -32,11 +32,11 @@ public class RentalAgreement {
         return p+"%";
     }
 
-    public RentalAgreement(Tool tool, Instant checkoutDate, int rentalDays, int discountPercent) {
+    public RentalAgreement(Tool tool, Instant checkoutDate, RentalDayCount rentalDays, Percent discountPercent) {
         this.tool = tool;
         this.checkoutDate = checkoutDate;
-        this.rentalDays = new RentalDayCount(rentalDays);
-        this.discountPercent = new Percent(discountPercent);
+        this.rentalDays = rentalDays;
+        this.discountPercent = discountPercent;
     }
 
     public RentalAgreement() {
@@ -82,14 +82,13 @@ public class RentalAgreement {
     }
 
     private String formatDate(Instant i) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy")
-                .withZone(ZoneId.of("UTC"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PointOfSale.DATE_FORMAT)
+                .withZone(ZoneId.of(PointOfSale.TIME_ZONE));
 
         return formatter.format(i);
     }
 
     private String formatCurrency(BigDecimal bd) {
         return NumberFormat.getCurrencyInstance(new Locale("en", "US")).format(bd);
-
     }
 }
