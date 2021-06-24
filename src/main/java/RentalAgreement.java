@@ -10,7 +10,7 @@ public class RentalAgreement {
     private Tool tool;
     private Instant checkoutDate;
     private int rentalDays;
-    private int discountPercent;
+    private Percent discountPercent;
 
     @Override
     public String toString() {
@@ -23,7 +23,7 @@ public class RentalAgreement {
                 .concat("Daily rental charge: "+ formatCurrency(getDailyCharge()) + "\n")
                 .concat("Charge days: "+ getChargeDays() +"\n")
                 .concat("Pre-discount charge: "+ formatCurrency(getPreDiscountCharge()) +"\n")
-                .concat("Discount percent: "+ formatPercent(discountPercent) +"\n")
+                .concat("Discount percent: "+ formatPercent(discountPercent.getValue()) +"\n")
                 .concat("Discount amount: "+ formatCurrency(getDiscountAmount()) +"\n")
                 .concat("Final charge: "+ formatCurrency(getFinalCharge()) +"\n");
     }
@@ -36,7 +36,7 @@ public class RentalAgreement {
         this.tool = tool;
         this.checkoutDate = checkoutDate;
         this.rentalDays = rentalDays;
-        this.discountPercent = discountPercent;
+        this.discountPercent = new Percent(discountPercent);
     }
 
     public RentalAgreement() {
@@ -72,7 +72,7 @@ public class RentalAgreement {
     }
 
     public BigDecimal getDiscountAmount() {
-        return BigDecimal.valueOf(discountPercent)
+        return BigDecimal.valueOf(discountPercent.getValue())
                 .divide(BigDecimal.valueOf(100))
                 .multiply(getPreDiscountCharge());
     }
