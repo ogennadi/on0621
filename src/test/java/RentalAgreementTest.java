@@ -3,8 +3,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RentalAgreementTest {
 
@@ -19,10 +18,56 @@ class RentalAgreementTest {
 
         BigDecimal actual = agreement.getFinalCharge();
 
-        assertTrue(BigDecimal.ZERO.subtract(actual).compareTo(BigDecimal.valueOf(0.01)) < 0,
-                "actual is not within $0.01 of expected");
+        assertWithinEpsilon(0.0, actual);
     }
 
+    @Test
+    void finalChargeIsCorrectForTest3() {
+        RentalAgreement agreement = new RentalAgreement(Tool.CHNS,
+                Instant.parse("2015-07-02T00:00:00Z"),
+                5,
+                25);
+
+        BigDecimal actual = agreement.getFinalCharge();
+
+        assertWithinEpsilon(3.3525 , actual);
+    }
+
+    @Test
+    void finalChargeIsCorrectForTest4() {
+        RentalAgreement agreement = new RentalAgreement(Tool.JAKD,
+                Instant.parse("2015-09-03T00:00:00Z"),
+                6,
+                0);
+
+        BigDecimal actual = agreement.getFinalCharge();
+
+        assertWithinEpsilon(8.97 , actual);
+    }
+
+    @Test
+    void finalChargeIsCorrectForTest5() {
+        RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
+                Instant.parse("2015-07-02T00:00:00Z"),
+                9,
+                0);
+
+        BigDecimal actual = agreement.getFinalCharge();
+
+        assertWithinEpsilon(17.94 , actual);
+    }
+
+    @Test
+    void finalChargeIsCorrectForTest6() {
+        RentalAgreement agreement = new RentalAgreement(Tool.JAKR,
+                Instant.parse("2020-07-02T00:00:00Z"),
+                4,
+                50);
+
+        BigDecimal actual = agreement.getFinalCharge();
+
+        assertWithinEpsilon(2.99 , actual);
+    }
 
     @Test
     void dueDateShouldReturnCheckoutDatePlusRentalDays() {
@@ -89,5 +134,11 @@ class RentalAgreementTest {
         String actual = agreement.toString();
 
         assertEquals(expected, actual);
+    }
+
+
+    private void assertWithinEpsilon(Double expected, BigDecimal actual) {
+        assertTrue(BigDecimal.valueOf(expected).subtract(actual).compareTo(BigDecimal.valueOf(0.01)) < 0,
+                "actual is not within $0.01 of expected");
     }
 }
