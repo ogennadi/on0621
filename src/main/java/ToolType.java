@@ -2,6 +2,8 @@ import java.time.*;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.time.DayOfWeek.*;
+
 public enum ToolType {
     LADDER("Ladder", 1.99, true, false),
     CHAINSAW("Chainsaw", 1.49, false, true),
@@ -48,12 +50,16 @@ public enum ToolType {
     }
 
     private boolean isIndependenceDay(Instant i) {
-        ZonedDateTime dateAtZone = i.atZone(ZoneId.of(PointOfSale.TIME_ZONE));
-        int dayOfMonth = dateAtZone.getDayOfMonth();
-        Month month = dateAtZone.getMonth();
+        ZonedDateTime date = i.atZone(ZoneId.of(PointOfSale.TIME_ZONE));
+        int dayOfMonth = date.getDayOfMonth();
+        Month month = date.getMonth();
+        List<DayOfWeek> weekdays = Arrays.asList(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY);
 
-        return dayOfMonth == 4 &&
-                month.equals(Month.JULY);
+        return month.equals(Month.JULY) && (
+                dayOfMonth == 4 && weekdays.contains(date.getDayOfWeek()) ||
+                dayOfMonth == 5 && date.getDayOfWeek().equals(MONDAY) ||
+                dayOfMonth == 3 && date.getDayOfWeek().equals(FRIDAY)
+        );
     }
 
     private boolean isLaborDay(Instant i) {
@@ -62,7 +68,7 @@ public enum ToolType {
         int dayOfMonth = dateAtZone.getDayOfMonth();
         Month month = dateAtZone.getMonth();
 
-        return currentDayOfWeek.equals(DayOfWeek.MONDAY) &&
+        return currentDayOfWeek.equals(MONDAY) &&
                 dayOfMonth <= 7 &&
                 month.equals(Month.SEPTEMBER);
     }

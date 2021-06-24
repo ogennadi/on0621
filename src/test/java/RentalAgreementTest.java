@@ -54,7 +54,7 @@ class RentalAgreementTest {
 
         BigDecimal actual = agreement.getFinalCharge();
 
-        assertEquals(BigDecimal.valueOf(17.94), actual);
+        assertEquals(BigDecimal.valueOf(14.95), actual);
     }
 
     @Test
@@ -66,7 +66,7 @@ class RentalAgreementTest {
 
         BigDecimal actual = agreement.getFinalCharge();
 
-        assertEquals(BigDecimal.valueOf(2.99), actual);
+        assertEquals(BigDecimal.valueOf(1.49), actual);
     }
 
     @Test

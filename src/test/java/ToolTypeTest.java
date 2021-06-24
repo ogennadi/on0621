@@ -32,10 +32,19 @@ class ToolTypeTest {
     }
 
     @Test
-    void chargeDaysIsRentalDaysLessFourthOfJuly() {
-        Instant dayBeforeFourthOfJuly = Instant.parse("2022-07-03T00:00:00Z");
+    void chargeDaysIsRentalDaysLessIndependenceSunday() {
+        Instant independenceSunday = Instant.parse("2021-07-04T00:00:00Z");
 
-        int actual = ToolType.JACKHAMMER.getChargeDays(dayBeforeFourthOfJuly, 1);
+        int actual = ToolType.JACKHAMMER.getChargeDays(independenceSunday, 1);
+
+        assertEquals(0, actual);
+    }
+
+    @Test
+    void chargeDaysIsRentalDaysLessIndependenceSaturday() {
+        Instant thursdayBeforeIndependenceSaturday = Instant.parse("2020-07-02T00:00:00Z");
+
+        int actual = ToolType.JACKHAMMER.getChargeDays(thursdayBeforeIndependenceSaturday, 1);
 
         assertEquals(0, actual);
     }
