@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -64,13 +65,16 @@ public class RentalAgreement {
     }
 
     public BigDecimal getPreDiscountCharge() {
-        return BigDecimal.valueOf(getChargeDays()).multiply(getDailyCharge());
+        return BigDecimal.valueOf(getChargeDays())
+                .multiply(getDailyCharge())
+                .setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getDiscountAmount() {
         return BigDecimal.valueOf(discountPercent.getValue())
                 .divide(BigDecimal.valueOf(100))
-                .multiply(getPreDiscountCharge());
+                .multiply(getPreDiscountCharge())
+                .setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getDailyCharge() {

@@ -18,7 +18,7 @@ class RentalAgreementTest {
 
         BigDecimal actual = agreement.getFinalCharge();
 
-        assertWithinEpsilon(0.0, actual);
+        assertEquals(BigDecimal.ZERO.setScale(2), actual);
     }
 
     @Test
@@ -30,7 +30,7 @@ class RentalAgreementTest {
 
         BigDecimal actual = agreement.getFinalCharge();
 
-        assertWithinEpsilon(3.3525 , actual);
+        assertEquals(BigDecimal.valueOf(3.35), actual);
     }
 
     @Test
@@ -42,7 +42,7 @@ class RentalAgreementTest {
 
         BigDecimal actual = agreement.getFinalCharge();
 
-        assertWithinEpsilon(8.97 , actual);
+        assertEquals(BigDecimal.valueOf(8.97), actual);
     }
 
     @Test
@@ -54,7 +54,7 @@ class RentalAgreementTest {
 
         BigDecimal actual = agreement.getFinalCharge();
 
-        assertWithinEpsilon(17.94 , actual);
+        assertEquals(BigDecimal.valueOf(17.94), actual);
     }
 
     @Test
@@ -66,7 +66,7 @@ class RentalAgreementTest {
 
         BigDecimal actual = agreement.getFinalCharge();
 
-        assertWithinEpsilon(2.99 , actual);
+        assertEquals(BigDecimal.valueOf(2.99), actual);
     }
 
     @Test
@@ -136,8 +136,4 @@ class RentalAgreementTest {
         assertEquals(expected, actual);
     }
 
-    private void assertWithinEpsilon(Double expected, BigDecimal actual) {
-        assertTrue(BigDecimal.valueOf(expected).subtract(actual).compareTo(BigDecimal.valueOf(0.01)) < 0,
-                "actual is not within $0.01 of expected");
-    }
 }
