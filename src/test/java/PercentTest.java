@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class PercentTest {
     @Test
     void throwsIfDiscountGreaterThan100Percent() {
-        assertThrows(RuntimeException.class, () -> new Percent(101));
+        assertThrows(PercentOutOfBoundsException.class, () -> new Percent(101));
     }
 
     @Test
     void throwsIfDiscountLessThan0Percent() {
-        assertThrows(RuntimeException.class, () -> new Percent(-1));
+        assertThrows(PercentOutOfBoundsException.class, () -> new Percent(-1));
     }
 
     @Test

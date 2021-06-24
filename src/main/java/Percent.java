@@ -3,7 +3,7 @@ public class Percent {
 
     public Percent(int value) {
         if (value < 0 || value > 100) {
-            throw new RuntimeException(value + " is outside percent bounds");
+            throw new PercentOutOfBoundsException();
         }
 
         this.value = value;
