@@ -9,7 +9,7 @@ import java.util.Locale;
 public class RentalAgreement {
     private Tool tool;
     private Instant checkoutDate;
-    private int rentalDays;
+    private RentalDayCount rentalDays;
     private Percent discountPercent;
 
     @Override
@@ -35,7 +35,7 @@ public class RentalAgreement {
     public RentalAgreement(Tool tool, Instant checkoutDate, int rentalDays, int discountPercent) {
         this.tool = tool;
         this.checkoutDate = checkoutDate;
-        this.rentalDays = rentalDays;
+        this.rentalDays = new RentalDayCount(rentalDays);
         this.discountPercent = new Percent(discountPercent);
     }
 
@@ -55,16 +55,12 @@ public class RentalAgreement {
         this.checkoutDate = checkoutDate;
     }
 
-    public int getRentalDays() {
-        return rentalDays;
-    }
-
     public void setRentalDays(int rentalDays) {
-        this.rentalDays = rentalDays;
+        this.rentalDays = new RentalDayCount(rentalDays);
     }
 
     public Instant getDueDate() {
-        return checkoutDate.plus(Duration.ofDays(rentalDays));
+        return checkoutDate.plus(Duration.ofDays(rentalDays.getValue()));
     }
 
     public BigDecimal getPreDiscountCharge() {
@@ -82,7 +78,7 @@ public class RentalAgreement {
     }
 
     public int getChargeDays() {
-        return tool.getToolType().getChargeDays(checkoutDate, rentalDays);
+        return tool.getToolType().getChargeDays(checkoutDate, rentalDays.getValue());
     }
 
     private String formatDate(Instant i) {
